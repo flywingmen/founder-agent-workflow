@@ -32,7 +32,7 @@ Size the workflow to the project. Start small and add a stage when its trigger i
 | Stage | When | What it adds |
 |---|---|---|
 | 1. Solo loop | Pre-launch, one agent | One inbox for ideas and a weekly triage, plan before build, tests on the change, one click-through, "Customers will see" list, typed confirm before production, a rollback, no production credentials for agents |
-| 2. Live product | Real users or money | Tracker as the record, CI on the exact commit that ships, release windows, production deploys only through CI with a manual approval, mutation rounds, screenshots at desktop and phone width, heavy and empty data checks, blind QA |
+| 2. Live product | Real users or money | Tracker as the record, CI on the exact commit that ships, release windows, production deploys only by the founder's own trigger, mutation rounds, screenshots at desktop and phone width, heavy and empty data checks, blind QA |
 | 3. Parallel lanes | More work than one agent can carry | Orchestrator plus named lanes, one git worktree per lane, one owner per shared resource, handover notes, overnight work, shadow mode for risky logic |
 
 Tell the person which stage they are in and why, in two sentences.
@@ -46,7 +46,7 @@ Tell the person which stage they are in and why, in two sentences.
 Fill the templates with their answers and write them into the repo. Do not paste whole templates into chat.
 
 - `templates/project-rules.md` becomes the agent rules file (append to `CLAUDE.md`, or create it). Keep only the sections for their stage.
-- **The real lock: agents never hold production credentials.** Production keys, deploy tokens and server access live with the founder and in CI, never on the machine or in the session where agents work. From stage 2, production deploys run only through CI with a manual approval: `templates/deploy-workflow.yml` becomes `.github/workflows/deploy.yml`, deploying through a GitHub Environment with the founder as required reviewer. The approval click is the typed confirm. On other CI, use the same idea: a manually triggered job only the founder can approve.
+- **The real lock is whose credentials can deploy.** Agents get their own GitHub token that can push branches and open PRs but has no Actions or Workflows access, and production secrets live only in CI or the host. `templates/deploy-workflow.yml` becomes `.github/workflows/deploy.yml`: it runs only when the founder triggers it from their own account, and refuses unless CI is green on that commit. That trigger is the typed confirm. Walk them through `references/release-lock.md` step by step; it works on any GitHub plan, including private repos on Free and Pro. If their host has a manual promote step (Vercel, Fly, Railway) and agents have no host token, that works too.
 - `templates/settings.json` becomes `.claude/settings.json` (merge if one exists). It is a backup, not the lock: Claude Code asks before commands that start with these patterns, but a differently written command can slip past, and a `Read` rule does not stop `cat`. Replace the example entries with their real deploy, migration and production commands. Tell them not to run release work in a mode that skips permission prompts.
 - `templates/ticket.md`, `templates/plan.md`: how work is written down in their tracker.
 - Set up the tracker engine from `references/backlog.md`: inbox and triage, priorities, epics, links between tickets and bugs, and merging (statuses and labels for Linear, GitHub Issues or a file), and `templates/triage.md` for the weekly session.
@@ -74,7 +74,7 @@ Take one small real change through the whole loop. Point out each gate as it hap
 4. **Build** on its own branch (a worktree per lane at stage 3). Tests on what changed. From stage 2, break the fix on purpose to prove the tests notice.
 5. **Check.** Tests green on the commit that ships (CI from stage 2). The building agent clicks through the change and posts what it saw (screenshots at both widths from stage 2). From stage 2, a separate agent with no context walks the user journeys.
 6. **Customers will see.** One plain list of every visible change, or "nothing visible".
-7. **Typed confirm.** The founder types the release line. Rollback is taken and verified before release.
+7. **Typed confirm.** The founder triggers the deploy from their own account (stage 1 without a deploy workflow: the founder runs or types the release line). Rollback is taken and verified before release.
 8. **Release and verify by outcome,** not by exit code: the running version, the data, one real check of the new behaviour. Roll back on any failure without asking.
 9. **Record.** Ticket closed with the released commit and what rode with it.
 
@@ -93,7 +93,7 @@ Small changes skip steps 2 and 3 (measure, plan) and the mutation round. The fas
 - The founder decides product questions: what ships, where a feature lives, what a user sees, all user-facing words. Agents never answer these themselves; they bring the question with one recommendation.
 - No new user-visible screen, button or copy gets built without the founder's yes first.
 - Investigate the root cause first, then fix. A question or complaint from the founder is not an order to build.
-- Nothing reaches production without the founder's typed confirm. Agents never hold production credentials; deploys go through a step only the founder can approve, with `.claude/settings.json` as a backup. Every release has a tested rollback.
+- Nothing reaches production without the founder's typed confirm. Agents never hold production credentials; only the founder's own account can trigger a deploy, with `.claude/settings.json` as a backup. Every release has a tested rollback.
 - Measured or not said. Unknown is written as "unknown", never estimated.
 - Check outcomes, not exit codes.
 - The tracker is the record. A ruling or finding that lives only in chat does not exist.

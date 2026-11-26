@@ -15,13 +15,14 @@ How to actually set up an orchestrator and parallel lanes. Read this when one ag
    git worktree add ../app-TKT-123 -b tkt-123 origin/main
    cd ../app-TKT-123
    ```
-2. Start Claude Code there with a name:
+2. Make sure this shell is logged in to GitHub with the agents' token, not the founder's account (`references/release-lock.md`).
+3. Start Claude Code there with a name:
    ```
    claude --name RADAR
    ```
    (In a session that is already running, `/rename RADAR` does the same.)
-3. Keep the lane in the default ask-first permission mode, not a mode that skips prompts. The founder sees and approves anything risky.
-4. Give it its first brief (`templates/lane-brief.md`): ticket, phase, scope, acceptance, where to post, and HOLD.
+4. Keep the lane in the default ask-first permission mode, not a mode that skips prompts. The founder sees and approves anything risky.
+5. Give it its first brief (`templates/lane-brief.md`): ticket, phase, scope, acceptance, where to post, and HOLD.
 
 Each lane reads the project's `CLAUDE.md`, so the workflow rules apply in every lane without repeating them.
 
@@ -30,7 +31,7 @@ Each lane reads the project's `CLAUDE.md`, so the workflow rules apply in every 
 Pick one. Start with the first; move to the second when pasting gets tiring.
 
 1. **Founder relays.** The orchestrator writes each brief in a code block; the founder pastes it into the lane's terminal tab and pastes the lane's report back. Simple, and the founder sees everything. It costs the founder's time.
-2. **Orchestrator messages lanes directly.** Run the orchestrator as a Claude Code session on the same machine as the lanes. It can list the named sessions running there and send a message to one by name, and the lane replies the same way. The founder now only answers questions and permission prompts. Lanes still never message each other.
+2. **Orchestrator messages lanes directly.** Run the orchestrator as a Claude Code session on the same machine as the lanes. In the setup this came from, it lists the named sessions running there and sends a message to one by name, and the lane replies the same way. This depends on your Claude Code version and surface, so test it once before relying on it: ask the orchestrator to list the running sessions and send a lane a one-line message. If it can't, stay with the founder relay. The founder now only answers questions and permission prompts. Lanes still never message each other.
 
 Either way, the ticket is the record: lanes post plans, findings and release notes on their ticket, so nothing important lives only in a message.
 

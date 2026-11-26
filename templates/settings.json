@@ -1,13 +1,16 @@
 {
   "permissions": {
     "ask": [
-      "Bash(git push:*)",
+      "Bash(git push origin main:*)",
+      "Bash(git push origin HEAD:main:*)",
+      "Bash(git push -u origin main:*)",
       "Bash(./deploy.sh:*)",
       "Bash(npm run deploy:*)",
       "Bash(npm run migrate:*)",
       "Bash(npx prisma migrate:*)",
-      "Bash(vercel:*)",
-      "Bash(fly:*)",
+      "Bash(vercel --prod:*)",
+      "Bash(vercel promote:*)",
+      "Bash(fly deploy:*)",
       "Bash(gh workflow run:*)",
       "Bash(gh pr merge:*)",
       "Bash(ssh:*)",
