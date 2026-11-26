@@ -31,8 +31,8 @@ Size the workflow to the project. Start small and add a stage when its trigger i
 
 | Stage | When | What it adds |
 |---|---|---|
-| 1. Solo loop | Pre-launch, one agent | One inbox for ideas and a weekly triage, plan before build, tests on the change, one click-through, "Customers will see" list, typed confirm before production, a rollback, no production credentials for agents |
-| 2. Live product | Real users or money | Tracker as the record, CI on the exact commit that ships, release windows, production deploys only by the founder's own trigger, mutation rounds, screenshots at desktop and phone width, heavy and empty data checks, blind QA |
+| 1. Solo loop | Pre-launch, one agent | One inbox for ideas and a weekly triage, a design rules file, plan before build (with a mockup for new screens), tests on the change, one click-through, "Customers will see" list, typed confirm before production, a rollback, no production credentials for agents |
+| 2. Live product | Real users or money | Tracker as the record with priorities, epics and linked tickets, CI on the exact commit that ships, release windows, production deploys only by the founder's own trigger, mutation rounds, screenshots at desktop and phone width, heavy and empty data checks, blind QA |
 | 3. Parallel lanes | More work than one agent can carry | Orchestrator plus named lanes, one git worktree per lane, one owner per shared resource, handover notes, overnight work, shadow mode for risky logic |
 
 Tell the person which stage they are in and why, in two sentences.
@@ -46,10 +46,12 @@ Tell the person which stage they are in and why, in two sentences.
 Fill the templates with their answers and write them into the repo. Do not paste whole templates into chat.
 
 - `templates/project-rules.md` becomes the agent rules file (append to `CLAUDE.md`, or create it). Keep only the sections for their stage.
-- **The real lock is whose credentials can deploy.** Agents get their own GitHub token that can push branches and open PRs but has no Actions or Workflows access, and production secrets live only in CI or the host. `templates/deploy-workflow.yml` becomes `.github/workflows/deploy.yml`: it runs only when the founder triggers it from their own account, and refuses unless CI is green on that commit. That trigger is the typed confirm. Walk them through `references/release-lock.md` step by step; it works on any GitHub plan, including private repos on Free and Pro. If their host has a manual promote step (Vercel, Fly, Railway) and agents have no host token, that works too.
+- **The real lock is whose credentials can deploy.** Agents get their own GitHub token that can push branches and open PRs but has no Actions or Workflows access, and production secrets live only in CI or the host. `templates/deploy-workflow.yml` becomes `.github/workflows/deploy.yml`: it runs only when the founder triggers it from their own account, and refuses unless CI is green on that commit. That trigger is the typed confirm. Do the setup in `references/release-lock.md` yourself; it works on any GitHub plan, including private repos on Free and Pro. The founder does not need to read it: hand them only the steps you can't reach (creating the token, adding a secret, a host setting), numbered, with what they should see. If their host has a manual promote step and agents have no host token, that works too.
+- **Close the host's side door, then test the lock.** Check whether the host deploys production by itself on a push to main. If it does, turn that off and keep the previews, through the host's CLI or with a few clicks for the founder. Then try to trigger the deploy from your own shell (`references/release-lock.md`, "Check the lock"). It must be refused. If it isn't, tell the founder the lock is open and fix it before any feature work.
 - `templates/settings.json` becomes `.claude/settings.json` (merge if one exists). It is a backup, not the lock: Claude Code asks before commands that start with these patterns, but a differently written command can slip past, and a `Read` rule does not stop `cat`. Replace the example entries with their real deploy, migration and production commands. Tell them not to run release work in a mode that skips permission prompts.
 - `templates/ticket.md`, `templates/plan.md`: how work is written down in their tracker.
-- Set up the tracker engine from `references/backlog.md`: inbox and triage, priorities, epics, links between tickets and bugs, and merging (statuses and labels for Linear, GitHub Issues or a file), and `templates/triage.md` for the weekly session.
+- Set up the tracker from `references/backlog.md`. Stage 1: the inbox and a weekly triage (`templates/triage.md`), nothing more. From stage 2: priorities, epics, links between tickets and bugs, and merging.
+- `templates/design.md` becomes `docs/design.md`, written from the existing app: read its theme, CSS and components, and list the colors, fonts, spacing, components to reuse and the tone of copy. Point to it from the rules file. If there is no UI yet, propose one short set and get the founder's yes.
 - `templates/release-checklist.md`, `templates/customers-will-see.md`: from stage 1 and 2.
 - `templates/qa-journeys.md` (stage 2): write 3 to 7 real journeys for their product (sign up, the main action, paying, the empty first screen).
 - `templates/handover.md`, `templates/lane-brief.md` (stage 3), and `templates/traps.md` from day one.
@@ -70,9 +72,9 @@ Take one small real change through the whole loop. Point out each gate as it hap
 0. **Inbox.** Ideas, requests, bugs and findings land in one inbox. Nothing is built from it until the founder accepts it in triage (`references/backlog.md`).
 1. **Ticket.** One problem, one ticket, from an item the founder accepted (urgent bugs skip triage). The founder's words go on it as written.
 2. **Measure first.** Read the code and the data before believing the ticket. Post findings with file:line and the query behind each number. If the premise is wrong, say so first.
-3. **Plan, then HOLD.** What was found, what will change, what proves it worked, what a user will see. The founder answers product questions. Nothing builds before GO.
+3. **Plan, then HOLD.** What was found, what will change, what proves it worked, what a user will see. A new or redesigned screen comes with a mockup picture, today's screen next to the proposed one. The founder answers product questions. Nothing builds before GO.
 4. **Build** on its own branch (a worktree per lane at stage 3). Tests on what changed. From stage 2, break the fix on purpose to prove the tests notice.
-5. **Check.** Tests green on the commit that ships (CI from stage 2). The building agent clicks through the change and posts what it saw (screenshots at both widths from stage 2). From stage 2, a separate agent with no context walks the user journeys.
+5. **Check.** Tests green on the commit that ships (CI from stage 2). The building agent clicks through the change and posts what it saw, including the loading, empty and error states, long text, and basic accessibility (contrast, tap targets, keyboard). Screenshots at both widths from stage 2. From stage 2, a separate agent with no context walks the user journeys.
 6. **Customers will see.** One plain list of every visible change, or "nothing visible".
 7. **Typed confirm.** The founder triggers the deploy from their own account (stage 1 without a deploy workflow: the founder runs or types the release line). Rollback is taken and verified before release.
 8. **Release and verify by outcome,** not by exit code: the running version, the data, one real check of the new behaviour. Roll back on any failure without asking.
@@ -91,7 +93,7 @@ Small changes skip steps 2 and 3 (measure, plan) and the mutation round. The fas
 ## Hard rules (all stages)
 
 - The founder decides product questions: what ships, where a feature lives, what a user sees, all user-facing words. Agents never answer these themselves; they bring the question with one recommendation.
-- No new user-visible screen, button or copy gets built without the founder's yes first.
+- No new user-visible screen, button or copy gets built without the founder's yes first. Agents reuse the components and styles in `docs/design.md`; a new one needs the founder's yes too.
 - Investigate the root cause first, then fix. A question or complaint from the founder is not an order to build.
 - Nothing reaches production without the founder's typed confirm. Agents never hold production credentials; only the founder's own account can trigger a deploy, with `.claude/settings.json` as a backup. Every release has a tested rollback.
 - Measured or not said. Unknown is written as "unknown", never estimated.

@@ -60,7 +60,7 @@ For browser checks you'll want Playwright (`npm i -D playwright && npx playwrigh
 - `references/backlog.md`: the tracker engine: one inbox for ideas, requests and bugs, weekly triage, priorities, epics, linking and merging tickets (Linear, GitHub Issues or a file).
 - `references/release-lock.md`: how to make sure only you can ship, on any GitHub plan.
 - `references/lanes.md`: how to open and run parallel agent lanes in Claude Code.
-- `templates/`: project rules, triage, founder-triggered deploy with a green-CI check (`deploy-workflow.yml`), permission backup (`settings.json`), ticket, plan, release checklist, "Customers will see", QA journeys, handover, lane brief, traps.
+- `templates/`: project rules, design rules (`design.md`), triage, founder-triggered deploy with a green-CI check (`deploy-workflow.yml`), permission backup (`settings.json`), ticket, plan, release checklist, "Customers will see", QA journeys, handover, lane brief, traps.
 
 ## What it won't do
 

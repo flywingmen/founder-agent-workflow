@@ -4,6 +4,8 @@ The loop starts at a ticket. This is the engine around it: where every idea, req
 
 The rule underneath: **nothing gets built from the inbox.** An idea becomes a ticket only when the founder says yes in triage. Agents capture; the founder decides.
 
+**By stage.** Pre-launch (stage 1), the inbox and a weekly triage are enough: the sections up to Triage, plus the last one. Priorities, epics, linking and combining start at stage 2, when real users bring more items than one list can hold.
+
 ## One inbox
 
 Everything new lands in one place, unprioritised:
@@ -54,14 +56,14 @@ A session, not a stream. Once a week, or when the inbox passes about 20 items.
 
 Proposal order, highest first: money paths and data safety; anything a paying user sees; what moves the founder's goal for this month; speed and cost; everything else.
 
-## Keeping the backlog honest
+## Keeping the backlog honest (stage 2)
 
 - **Now / Next / Later is the roadmap.** No dates unless the founder sets one.
 - **Old items:** anything in Backlog untouched for 60 days comes back to triage as a batch. It is not closed off a list: group by area and impact first, bring high-impact items back, merge duplicates, and only then propose the rest for closing.
 - **A request asked by several customers** shows its count in triage, so popularity is visible without a spreadsheet.
 - **Ideas the founder said no to** stay closed with the reason, so the same idea doesn't come back as new next month.
 
-## Priorities
+## Priorities (stage 2)
 
 Four levels, the same meaning everywhere. The founder sets or confirms them in triage; agents propose.
 
@@ -76,7 +78,7 @@ Four levels, the same meaning everywhere. The founder sets or confirms them in t
 - An agent never raises a priority on its own; it proposes, with one line of why.
 - If everything is High, nothing is. In triage, the agent flags when High has more items than one release can carry.
 
-## Epics
+## Epics (stage 2)
 
 A goal bigger than one ticket (a new feature area, a redesign, a migration) is an epic.
 
@@ -86,7 +88,7 @@ A goal bigger than one ticket (a new feature area, a redesign, a migration) is a
 - Findings and bugs found while working on an epic are filed as sub-issues of it, so nothing lives only in a lane's memory.
 - An epic is done when its last piece ships and the founder has seen it working, not when the code merges.
 
-## Linking tickets
+## Linking tickets (stage 2)
 
 Every ticket is connected to what it touches, so anyone (person or agent) can follow the thread.
 
@@ -97,7 +99,7 @@ Every ticket is connected to what it touches, so anyone (person or agent) can fo
 - **A ruling links to every ticket it affects:** when the founder decides something in one ticket that changes others, each of them gets a comment pointing to the ruling.
 - **An incident** (something broke in production) gets one ticket that links the bug, the fix, the release, and the line added to `traps.md`.
 
-## Combining tickets
+## Combining tickets (stage 2)
 
 - **Duplicates:** keep the item with the most context (usually the oldest). Copy the other's quotes and evidence into it, mark the other as duplicate, close it. Never lose a customer's words in a merge.
 - **The same defect seen from different angles** (three bug reports with one root cause): once measuring shows one cause, propose one umbrella ticket in triage. The reports become sub-issues or duplicates of it, so the fix closes all of them.
