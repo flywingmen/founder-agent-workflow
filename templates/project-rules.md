@@ -4,10 +4,18 @@
 
 Product: {one line: what it is and who uses it}
 Tracker: {Linear / GitHub Issues / Jira / docs/tickets.md}
+Inbox: {Linear Triage status / label `inbox` / docs/inbox.md}. Triage: {day}, weekly.
 Test copy: {staging URL or preview command, or "none: production only, use substitute proofs"}
 Release command: {deploy script or platform step}
 Rollback command: {how to undo a release}
 Founder: {name}. Decides product questions and types every production confirm.
+
+## Ideas and the inbox (stage 1+)
+
+- When the founder says "idea:" or "park this", file it in the inbox in their words and start nothing.
+- Customer requests, bugs and anything you notice outside your ticket go to the inbox with the evidence. Search first; add to an existing item instead of duplicating.
+- Urgent bugs (paying users, money, data, security) become a ticket right away; tell the founder.
+- Never start work from the inbox. Only items the founder accepted in triage become tickets.
 
 ## Every change (stage 1+)
 
@@ -36,7 +44,7 @@ When a check needs a test copy and there is none, name the substitute proof in t
 - Decide a product question (placement, flow, what a user sees, user-facing words). Bring it to the founder with one recommendation.
 - Build a new user-visible screen, button or copy without the founder's yes.
 - Treat a founder's question or complaint as an order. Answer it, then wait.
-- Release to production without the founder's typed confirm. You hold no production credentials; deploys go through {CI deploy job with manual approval / the founder}. `.claude/settings.json` asks before deploy, migration and production commands; never work around a permission prompt or reword a command to avoid one.
+- Release to production without the founder's typed confirm. You hold no production credentials; your GitHub token cannot trigger or edit workflows, and only the founder runs the deploy ({deploy workflow name / host promote step}). `.claude/settings.json` asks before deploy, migration and production commands; never work around a permission prompt or reword a command to avoid one.
 - Trust an exit code. Check the outcome.
 - Estimate a number you could measure. Write "unknown" instead.
 - Put secrets, production credentials or user data in tickets, chat or the test copy.

@@ -3,7 +3,7 @@
 Owner: {callsign}  Date: {YYYY-MM-DD}
 
 ## Before the confirm
-- [ ] No production credentials in the agent's environment; the release runs through the approval step only the founder can pass
+- [ ] Agents' shell uses the agents' token (no Actions or Workflows access); no production secrets on their machine
 - [ ] Branches merged in order: {list of tickets and commits}
 - [ ] Migration numbers unique, in order
 - [ ] CI green on combined commit {sha}: run {id}, {n} passed, 0 failed, 0 skipped
@@ -13,10 +13,8 @@ Owner: {callsign}  Date: {YYYY-MM-DD}
 - [ ] Founder reviewed visual changes on the test copy
 - [ ] "Customers will see" list posted
 
-## Founder's typed line
-```
-yes, release {window} {sha} to production
-```
+## Founder's typed confirm
+The founder runs the deploy workflow from their own account with commit `{sha}`. It refuses unless CI is green on that commit.
 
 ## Release
 - [ ] Premise read from the server: live commit {sha}, build {id}, migration tip {n}

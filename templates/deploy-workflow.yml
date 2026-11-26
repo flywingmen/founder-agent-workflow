@@ -1,27 +1,51 @@
-# Production deploy, gated by the founder's approval.
-# Setup: repo Settings > Environments > New environment "production",
-# tick "Required reviewers" and add the founder. Put production secrets
-# in that environment only, never in repo-wide secrets or on the agents' machine.
+# Production deploy. Runs only when the founder triggers it by hand.
+# The lock is the agents' token: it has no Actions and no Workflows access,
+# so agents can't run this or change it. See references/release-lock.md.
+# Production secrets live in this repo's Actions secrets only.
 name: Deploy to production
 
 on:
   workflow_dispatch:
     inputs:
       sha:
-        description: "Commit to release (must have green CI)"
+        description: "Commit to release"
         required: true
+
+permissions:
+  contents: read
+  checks: read
+  statuses: read
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: production   # the run waits here until the founder approves
+    # Optional: on a public repo or GitHub Enterprise, uncomment to also require
+    # the founder's approval in the run itself.
+    # environment: production
     steps:
+      - name: Refuse unless CI is green on this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ inputs.sha }}
+        run: |
+          runs=$(gh api "repos/${{ github.repository }}/commits/$SHA/check-runs" --paginate \
+            --jq '.check_runs[] | select(.name != "${{ github.job }}")' | jq -s '.')
+          total=$(echo "$runs" | jq 'length')
+          bad=$(echo "$runs" | jq '[.[] | select(.conclusion != "success" and .conclusion != "skipped")] | length')
+          state=$(gh api "repos/${{ github.repository }}/commits/$SHA/status" --jq '.state')
+          echo "check runs: $total, not green: $bad, commit status: $state"
+          if [ "$total" -eq 0 ]; then echo "No CI ran on $SHA. Refusing."; exit 1; fi
+          if [ "$bad" -ne 0 ]; then echo "CI is not green on $SHA. Refusing."; exit 1; fi
+          if [ "$state" = "failure" ] || [ "$state" = "error" ]; then echo "Commit status is $state. Refusing."; exit 1; fi
+
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.sha }}
+
       - name: Deploy
         run: ./deploy.sh   # replace with the real deploy command
         env:
           DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}   # replace with the real secret names
+
       - name: Verify by outcome
         run: ./verify.sh   # check the live version and one real example of the change
