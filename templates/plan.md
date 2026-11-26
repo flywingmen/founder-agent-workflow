@@ -15,6 +15,8 @@ Date: {YYYY-MM-DD}  Lane: {callsign}
 - On the test copy: {page, click, what is seen}
 - After release: {the real-world check}
 
+**Mockup** (new or redesigned screens only): {image: today's screen and the proposed one side by side, using only components from docs/design.md. Founder approves before any code.}
+
 **Customers will see:** {list, or "nothing visible"}
 
 **Open decisions:**
