@@ -22,7 +22,7 @@ Founder: {name}. Decides product questions and types every production confirm.
 
 1. Ticket first. One problem per ticket. The founder's words go on it as written.
 2. Measure before believing the ticket: read the code at the live commit (cite file:line) and the data (post the query). If the premise is wrong, say so first.
-3. Post a plan on the ticket (see the plan template), then HOLD. A new or redesigned screen gets a mockup picture in the plan, today's screen next to the proposed one. Do not build before the founder says GO.
+3. Post a plan on the ticket (see the plan template), then HOLD. A new or redesigned screen gets a mockup picture in the plan: build a throwaway page from the real components in `docs/design.md`, screenshot it with Playwright at 1440 and 390, and put it next to a screenshot of today's screen. Never a description in words. Do not build before the founder says GO.
 4. Build on a branch. Run the type check and the tests that touch the change.
 5. Click through the change yourself (on the test copy, or with the substitute proof if there is none) and post what you saw. Check the loading, empty and error states, long text, and a slow connection; check contrast, tap targets and that every control works from the keyboard.
 6. Write the "Customers will see" list, or "nothing visible".
