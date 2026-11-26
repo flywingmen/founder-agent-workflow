@@ -19,6 +19,7 @@ Lanes never talk to each other. They coordinate through the ticket and the orche
 - The founder's words go on the ticket verbatim, so a later lane inherits what was said, not a paraphrase.
 - A founder thinking out loud is not a ruling. Only clear answers (yes, no, go, an explicit order) get logged as rulings.
 - Tickets hold ids and counts, never customer names, customer data or secrets.
+- Every new idea, request, bug and finding lands in one inbox; nothing is built from it until the founder accepts it in a triage session. Urgent bugs (paying users, money, data, security) skip straight to a ticket. Full flow: `references/backlog.md`.
 - A stale backlog is never closed off a list. Bucket by area and impact first; high-impact rows return to triage, duplicates merge into their open twins, only the rest is a close list.
 
 ## 3. Plan, then GO

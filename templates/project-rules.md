@@ -4,10 +4,18 @@
 
 Product: {one line: what it is and who uses it}
 Tracker: {Linear / GitHub Issues / Jira / docs/tickets.md}
+Inbox: {Linear Triage status / label `inbox` / docs/inbox.md}. Triage: {day}, weekly.
 Test copy: {staging URL or preview command, or "none: production only, use substitute proofs"}
 Release command: {deploy script or platform step}
 Rollback command: {how to undo a release}
 Founder: {name}. Decides product questions and types every production confirm.
+
+## Ideas and the inbox (stage 1+)
+
+- When the founder says "idea:" or "park this", file it in the inbox in their words and start nothing.
+- Customer requests, bugs and anything you notice outside your ticket go to the inbox with the evidence. Search first; add to an existing item instead of duplicating.
+- Urgent bugs (paying users, money, data, security) become a ticket right away; tell the founder.
+- Never start work from the inbox. Only items the founder accepted in triage become tickets.
 
 ## Every change (stage 1+)
 

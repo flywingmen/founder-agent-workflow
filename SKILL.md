@@ -31,7 +31,7 @@ Size the workflow to the project. Start small and add a stage when its trigger i
 
 | Stage | When | What it adds |
 |---|---|---|
-| 1. Solo loop | Pre-launch, one agent | Plan before build, tests on the change, one click-through, "Customers will see" list, typed confirm before production, a rollback, no production credentials for agents |
+| 1. Solo loop | Pre-launch, one agent | One inbox for ideas and a weekly triage, plan before build, tests on the change, one click-through, "Customers will see" list, typed confirm before production, a rollback, no production credentials for agents |
 | 2. Live product | Real users or money | Tracker as the record, CI on the exact commit that ships, release windows, production deploys only through CI with a manual approval, mutation rounds, screenshots at desktop and phone width, heavy and empty data checks, blind QA |
 | 3. Parallel lanes | More work than one agent can carry | Orchestrator plus named lanes, one git worktree per lane, one owner per shared resource, handover notes, overnight work, shadow mode for risky logic |
 
@@ -49,6 +49,7 @@ Fill the templates with their answers and write them into the repo. Do not paste
 - **The real lock: agents never hold production credentials.** Production keys, deploy tokens and server access live with the founder and in CI, never on the machine or in the session where agents work. From stage 2, production deploys run only through CI with a manual approval: `templates/deploy-workflow.yml` becomes `.github/workflows/deploy.yml`, deploying through a GitHub Environment with the founder as required reviewer. The approval click is the typed confirm. On other CI, use the same idea: a manually triggered job only the founder can approve.
 - `templates/settings.json` becomes `.claude/settings.json` (merge if one exists). It is a backup, not the lock: Claude Code asks before commands that start with these patterns, but a differently written command can slip past, and a `Read` rule does not stop `cat`. Replace the example entries with their real deploy, migration and production commands. Tell them not to run release work in a mode that skips permission prompts.
 - `templates/ticket.md`, `templates/plan.md`: how work is written down in their tracker.
+- Set up the tracker engine from `references/backlog.md`: inbox and triage, priorities, epics, links between tickets and bugs, and merging (statuses and labels for Linear, GitHub Issues or a file), and `templates/triage.md` for the weekly session.
 - `templates/release-checklist.md`, `templates/customers-will-see.md`: from stage 1 and 2.
 - `templates/qa-journeys.md` (stage 2): write 3 to 7 real journeys for their product (sign up, the main action, paying, the empty first screen).
 - `templates/handover.md`, `templates/lane-brief.md` (stage 3), and `templates/traps.md` from day one.
@@ -66,7 +67,8 @@ Take one small real change through the whole loop. Point out each gate as it hap
 
 ## The loop (every change)
 
-1. **Ticket.** One problem, one ticket. The founder's words go on it as written.
+0. **Inbox.** Ideas, requests, bugs and findings land in one inbox. Nothing is built from it until the founder accepts it in triage (`references/backlog.md`).
+1. **Ticket.** One problem, one ticket, from an item the founder accepted (urgent bugs skip triage). The founder's words go on it as written.
 2. **Measure first.** Read the code and the data before believing the ticket. Post findings with file:line and the query behind each number. If the premise is wrong, say so first.
 3. **Plan, then HOLD.** What was found, what will change, what proves it worked, what a user will see. The founder answers product questions. Nothing builds before GO.
 4. **Build** on its own branch (a worktree per lane at stage 3). Tests on what changed. From stage 2, break the fix on purpose to prove the tests notice.
