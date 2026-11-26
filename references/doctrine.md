@@ -34,6 +34,9 @@ Lanes never talk to each other. They coordinate through the ticket and the orche
 
 ## 4. Lanes and isolation (stage 3)
 
+How to set lanes up in Claude Code, step by step: `references/lanes.md`.
+
+
 - One git worktree per lane. Lanes never touch the main folder that releases run from. *(Two lanes in one folder invalidated a full test run.)*
 - Each lane gets its own throwaway database when it needs one. The shared template is never touched.
 - Shared resources (main branch, test copy, build server, migration numbers) have one owner at a time, named on a standing ticket.

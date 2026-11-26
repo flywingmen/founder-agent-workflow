@@ -30,6 +30,7 @@ For browser checks you'll want Playwright (`npm i -D playwright && npx playwrigh
 ## What's inside
 
 - `SKILL.md`: the interview, the three stages, the change loop, the hard rules.
+- `references/lanes.md`: how to open and run parallel agent lanes in Claude Code.
 - `references/doctrine.md`: the full rules, including how checking works when agents write the code.
 - `templates/`: project rules, CI deploy with manual approval (`deploy-workflow.yml`), permission backup (`settings.json`), ticket, plan, release checklist, "Customers will see", QA journeys, handover, lane brief, traps.
 

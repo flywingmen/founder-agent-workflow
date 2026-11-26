@@ -52,6 +52,7 @@ Fill the templates with their answers and write them into the repo. Do not paste
 - `templates/release-checklist.md`, `templates/customers-will-see.md`: from stage 1 and 2.
 - `templates/qa-journeys.md` (stage 2): write 3 to 7 real journeys for their product (sign up, the main action, paying, the empty first screen).
 - `templates/handover.md`, `templates/lane-brief.md` (stage 3), and `templates/traps.md` from day one.
+- Stage 3: walk them through `references/lanes.md` (opening a lane in its own worktree, naming it, getting briefs to it and reports back, running it from the phone).
 
 **Browser checks need a browser tool.** Click-throughs and blind QA use Playwright (`npm i -D playwright && npx playwright install chromium`) or a browser MCP server. If none can be installed, the founder clicks through instead, from a numbered list of what to open and what they should see.
 
