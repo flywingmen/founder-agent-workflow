@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif">
+<rect width="1200" height="470" rx="16" fill="#f6f5f1"/>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b6b70"/></marker><marker id="ara" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c2410c"/></marker></defs>
+<text x="40" y="52" font-size="22" font-weight="700" fill="#1d1d1f">Every change, every time</text>
+<text x="40" y="78" font-size="15" fill="#6b6b70">Agents do the work. The founder holds two gates. Nothing ships around them.</text>
+<rect x="40.0" y="115" width="150" height="74" rx="10" fill="#ffffff" stroke="#c9c9cf" stroke-width="1.2"/>
+<text x="54.0" y="145" font-size="16" font-weight="650" fill="#1d1d1f">1  Ticket</text>
+<text x="54.0" y="168" font-size="13" fill="#6b6b70">one problem</text>
+<line x1="194.0" y1="152.0" x2="230.0" y2="152.0" stroke="#6b6b70" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="234.0" y="115" width="150" height="74" rx="10" fill="#ffffff" stroke="#c9c9cf" stroke-width="1.2"/>
+<text x="248.0" y="145" font-size="16" font-weight="650" fill="#1d1d1f">2  Measure</text>
+<text x="248.0" y="168" font-size="13" fill="#6b6b70">code + data first</text>
+<line x1="388.0" y1="152.0" x2="424.0" y2="152.0" stroke="#6b6b70" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="428.0" y="115" width="150" height="74" rx="10" fill="#ffffff" stroke="#c9c9cf" stroke-width="1.2"/>
+<text x="442.0" y="145" font-size="16" font-weight="650" fill="#1d1d1f">3  Plan</text>
+<text x="442.0" y="168" font-size="13" fill="#6b6b70">then HOLD</text>
+<line x1="582.0" y1="152.0" x2="618.0" y2="152.0" stroke="#6b6b70" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="622.0" y="115" width="150" height="74" rx="10" fill="#fff1e8" stroke="#c2410c" stroke-width="2"/>
+<text x="636.0" y="145" font-size="16" font-weight="650" fill="#c2410c">Founder: GO</text>
+<text x="636.0" y="168" font-size="13" fill="#6b6b70">product calls</text>
+<line x1="776.0" y1="152.0" x2="812.0" y2="152.0" stroke="#6b6b70" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="816.0" y="115" width="150" height="74" rx="10" fill="#ffffff" stroke="#c9c9cf" stroke-width="1.2"/>
+<text x="830.0" y="145" font-size="16" font-weight="650" fill="#1d1d1f">4  Build</text>
+<text x="830.0" y="168" font-size="13" fill="#6b6b70">own branch</text>
+<line x1="970.0" y1="152.0" x2="1006.0" y2="152.0" stroke="#6b6b70" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1010.0" y="115" width="150" height="74" rx="10" fill="#ffffff" stroke="#c9c9cf" stroke-width="1.2"/>
+<text x="1024.0" y="145" font-size="16" font-weight="650" fill="#1d1d1f">5  Check</text>
+<text x="1024.0" y="168" font-size="13" fill="#6b6b70">tests, click-through</text>
+<rect x="1010.0" y="279" width="150" height="74" rx="10" fill="#ffffff" stroke="#c9c9cf" stroke-width="1.2"/>
+<text x="1024.0" y="309" font-size="16" font-weight="650" fill="#1d1d1f">6  User impact</text>
+<text x="1024.0" y="332" font-size="13" fill="#6b6b70">"Customers will see"</text>
+<rect x="816.0" y="279" width="150" height="74" rx="10" fill="#fff1e8" stroke="#c2410c" stroke-width="2"/>
+<text x="830.0" y="309" font-size="16" font-weight="650" fill="#c2410c">Founder: YES</text>
+<text x="830.0" y="332" font-size="13" fill="#6b6b70">typed release line</text>
+<rect x="622.0" y="279" width="150" height="74" rx="10" fill="#ffffff" stroke="#c9c9cf" stroke-width="1.2"/>
+<text x="636.0" y="309" font-size="16" font-weight="650" fill="#1d1d1f">7  Release</text>
+<text x="636.0" y="332" font-size="13" fill="#6b6b70">rollback taken</text>
+<rect x="428.0" y="279" width="150" height="74" rx="10" fill="#ffffff" stroke="#c9c9cf" stroke-width="1.2"/>
+<text x="442.0" y="309" font-size="16" font-weight="650" fill="#1d1d1f">8  Verify</text>
+<text x="442.0" y="332" font-size="13" fill="#6b6b70">by outcome</text>
+<rect x="234.0" y="279" width="150" height="74" rx="10" fill="#ffffff" stroke="#c9c9cf" stroke-width="1.2"/>
+<text x="248.0" y="309" font-size="16" font-weight="650" fill="#1d1d1f">9  Record</text>
+<text x="248.0" y="332" font-size="13" fill="#6b6b70">ticket closed</text>
+<line x1="1006.0" y1="316.0" x2="970.0" y2="316.0" stroke="#6b6b70" stroke-width="1.5" marker-end="url(#ar)"/>
+<line x1="812.0" y1="316.0" x2="776.0" y2="316.0" stroke="#6b6b70" stroke-width="1.5" marker-end="url(#ar)"/>
+<line x1="618.0" y1="316.0" x2="582.0" y2="316.0" stroke="#6b6b70" stroke-width="1.5" marker-end="url(#ar)"/>
+<line x1="424.0" y1="316.0" x2="388.0" y2="316.0" stroke="#6b6b70" stroke-width="1.5" marker-end="url(#ar)"/>
+<line x1="1085.0" y1="193" x2="1085.0" y2="275" stroke="#6b6b70" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M503.0,357 C503.0,405 697.0,405 697.0,361" fill="none" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ara)"/>
+<text x="600.0" y="415" font-size="13" fill="#c2410c" text-anchor="middle">fails? roll back first, report second</text>
+<text x="40" y="299" font-size="14" font-weight="650" fill="#1d1d1f">Fast path</text>
+<text x="40" y="321" font-size="13" fill="#6b6b70">Copy, styling, docs:</text>
+<text x="40" y="339" font-size="13" fill="#6b6b70">skip 2 and 3.</text>
+<text x="40" y="357" font-size="13" fill="#6b6b70">Never skip the confirm.</text>
+<rect x="40" y="424" width="14" height="14" rx="3" fill="#ffffff" stroke="#c9c9cf"/><text x="62" y="436" font-size="13" fill="#6b6b70">agents</text>
+<rect x="130" y="424" width="14" height="14" rx="3" fill="#fff1e8" stroke="#c2410c" stroke-width="2"/><text x="152" y="436" font-size="13" fill="#6b6b70">founder</text>
+</svg>
