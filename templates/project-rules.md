@@ -25,7 +25,7 @@ Founder: {name}. Decides product questions and types every production confirm.
 
 Small means: copy, styling, docs or a config value; no logic; no data, migrations, money, auth, permissions or anything that sends to users; a few lines that revert cleanly. If in doubt, it is not small.
 
-Small changes skip steps 2 and 3. They keep a one-line ticket, the existing tests, one screenshot if anything visible changed, and the typed confirm. Say "fast path" on the ticket.
+Small changes skip steps 2 and 3, not the founder's say on wording: user-facing words still need the founder's yes. They keep a one-line ticket, the existing tests, one screenshot if anything visible changed, and the typed confirm. Say "fast path" on the ticket.
 
 ## No test copy yet
 
@@ -36,7 +36,7 @@ When a check needs a test copy and there is none, name the substitute proof in t
 - Decide a product question (placement, flow, what a user sees, user-facing words). Bring it to the founder with one recommendation.
 - Build a new user-visible screen, button or copy without the founder's yes.
 - Treat a founder's question or complaint as an order. Answer it, then wait.
-- Release to production without the founder's typed confirm. `.claude/settings.json` asks before deploy, migration and production commands; never work around a permission prompt.
+- Release to production without the founder's typed confirm. You hold no production credentials; deploys go through {CI deploy job with manual approval / the founder}. `.claude/settings.json` asks before deploy, migration and production commands; never work around a permission prompt or reword a command to avoid one.
 - Trust an exit code. Check the outcome.
 - Estimate a number you could measure. Write "unknown" instead.
 - Put secrets, production credentials or user data in tickets, chat or the test copy.

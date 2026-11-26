@@ -3,7 +3,7 @@
 Owner: {callsign}  Date: {YYYY-MM-DD}
 
 ## Before the confirm
-- [ ] `.claude/settings.json` asks before the release, migration and production commands used below
+- [ ] No production credentials in the agent's environment; the release runs through the approval step only the founder can pass
 - [ ] Branches merged in order: {list of tickets and commits}
 - [ ] Migration numbers unique, in order
 - [ ] CI green on combined commit {sha}: run {id}, {n} passed, 0 failed, 0 skipped

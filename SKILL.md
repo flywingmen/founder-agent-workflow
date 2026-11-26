@@ -31,8 +31,8 @@ Size the workflow to the project. Start small and add a stage when its trigger i
 
 | Stage | When | What it adds |
 |---|---|---|
-| 1. Solo loop | Pre-launch, one agent | Plan before build, tests on the change, one click-through, typed confirm before production, a rollback, permission guards |
-| 2. Live product | Real users or money | Tracker as the record, CI on the exact commit that ships, release windows, "Customers will see" list, mutation rounds, screenshots at desktop and phone width, heavy and empty data checks, blind QA |
+| 1. Solo loop | Pre-launch, one agent | Plan before build, tests on the change, one click-through, "Customers will see" list, typed confirm before production, a rollback, no production credentials for agents |
+| 2. Live product | Real users or money | Tracker as the record, CI on the exact commit that ships, release windows, production deploys only through CI with a manual approval, mutation rounds, screenshots at desktop and phone width, heavy and empty data checks, blind QA |
 | 3. Parallel lanes | More work than one agent can carry | Orchestrator plus named lanes, one git worktree per lane, one owner per shared resource, handover notes, overnight work, shadow mode for risky logic |
 
 Tell the person which stage they are in and why, in two sentences.
@@ -46,7 +46,8 @@ Tell the person which stage they are in and why, in two sentences.
 Fill the templates with their answers and write them into the repo. Do not paste whole templates into chat.
 
 - `templates/project-rules.md` becomes the agent rules file (append to `CLAUDE.md`, or create it). Keep only the sections for their stage.
-- `templates/settings.json` becomes `.claude/settings.json` (merge if one exists). Its entries are examples: replace them with their real deploy, migration and production commands, and drop the rest. This is what makes the typed confirm real: Claude Code asks the founder before any of those commands run, whatever the model decides. Tell them not to run release work in a mode that skips permission prompts.
+- **The real lock: agents never hold production credentials.** Production keys, deploy tokens and server access live with the founder and in CI, never on the machine or in the session where agents work. From stage 2, production deploys run only through CI with a manual approval: `templates/deploy-workflow.yml` becomes `.github/workflows/deploy.yml`, deploying through a GitHub Environment with the founder as required reviewer. The approval click is the typed confirm. On other CI, use the same idea: a manually triggered job only the founder can approve.
+- `templates/settings.json` becomes `.claude/settings.json` (merge if one exists). It is a backup, not the lock: Claude Code asks before commands that start with these patterns, but a differently written command can slip past, and a `Read` rule does not stop `cat`. Replace the example entries with their real deploy, migration and production commands. Tell them not to run release work in a mode that skips permission prompts.
 - `templates/ticket.md`, `templates/plan.md`: how work is written down in their tracker.
 - `templates/release-checklist.md`, `templates/customers-will-see.md`: from stage 1 and 2.
 - `templates/qa-journeys.md` (stage 2): write 3 to 7 real journeys for their product (sign up, the main action, paying, the empty first screen).
@@ -82,14 +83,14 @@ A change is small only if all of these are true:
 - It touches no data, migrations, money, auth, permissions or anything that sends to users.
 - It is a few lines and reverts cleanly.
 
-Small changes skip steps 2 and 3 (measure, plan) and the mutation round. They keep: a one-line ticket, the tests that exist, one screenshot if anything visible changed, and the typed confirm. They ride the next release with everything else. **If in doubt, it is not small.** An agent that takes the fast path says so in one line on the ticket.
+Small changes skip steps 2 and 3 (measure, plan) and the mutation round. The fast path skips the plan, not the founder's say on wording: any user-facing words still need the founder's yes before release. They keep: a one-line ticket, the tests that exist, one screenshot if anything visible changed, and the typed confirm. They ride the next release with everything else. **If in doubt, it is not small.** An agent that takes the fast path says so in one line on the ticket.
 
 ## Hard rules (all stages)
 
 - The founder decides product questions: what ships, where a feature lives, what a user sees, all user-facing words. Agents never answer these themselves; they bring the question with one recommendation.
 - No new user-visible screen, button or copy gets built without the founder's yes first.
 - Investigate the root cause first, then fix. A question or complaint from the founder is not an order to build.
-- Nothing reaches production without the founder's typed confirm, backed by `.claude/settings.json` permission rules. Every release has a tested rollback.
+- Nothing reaches production without the founder's typed confirm. Agents never hold production credentials; deploys go through a step only the founder can approve, with `.claude/settings.json` as a backup. Every release has a tested rollback.
 - Measured or not said. Unknown is written as "unknown", never estimated.
 - Check outcomes, not exit codes.
 - The tracker is the record. A ruling or finding that lives only in chat does not exist.

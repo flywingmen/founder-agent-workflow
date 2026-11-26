@@ -6,7 +6,7 @@ Give it to your Claude, say what you are building, and it will:
 
 1. Ask seven short questions about your product, how you deploy and how you roll back.
 2. Pick the stage you are at: solo loop, live product, or parallel agents.
-3. Write the rules, templates and permission guards into your repo, sized to that stage.
+3. Write the rules, templates and release gate into your repo, sized to that stage.
 4. Take your first real change through the whole loop with you.
 
 Every rule in it was written after something went wrong on a live product with paying users: it comes from building and running [Wingmen](https://flywingmen.com), a B2B SaaS, solo with Claude Code.
@@ -31,7 +31,7 @@ For browser checks you'll want Playwright (`npm i -D playwright && npx playwrigh
 
 - `SKILL.md`: the interview, the three stages, the change loop, the hard rules.
 - `references/doctrine.md`: the full rules, including how checking works when agents write the code.
-- `templates/`: project rules, permission guards (`settings.json`), ticket, plan, release checklist, "Customers will see", QA journeys, handover, lane brief, traps.
+- `templates/`: project rules, CI deploy with manual approval (`deploy-workflow.yml`), permission backup (`settings.json`), ticket, plan, release checklist, "Customers will see", QA journeys, handover, lane brief, traps.
 
 ## License
 

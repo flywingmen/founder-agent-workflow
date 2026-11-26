@@ -24,7 +24,7 @@ Lanes never talk to each other. They coordinate through the ticket and the orche
 ## 3. Plan, then GO
 
 - Anything non-trivial runs in two phases. Phase 1: the lane measures, read-only, and posts a plan. Phase 2: build, only after GO.
-- **Trivial means all of these:** copy, styling, docs or a config value; no logic; no data, migrations, money, auth, permissions or anything that sends to users; a few lines that revert cleanly. Trivial changes take the fast path: a one-line ticket, the existing tests, one screenshot if something visible changed, and the typed confirm. No measure, no plan, no mutation round. If in doubt, it is not trivial. *(Without a defined fast path, agents either grind a typo through every gate or quietly skip gates on real changes. Both are worse than a clear line.)*
+- **Trivial means all of these:** copy, styling, docs or a config value; no logic; no data, migrations, money, auth, permissions or anything that sends to users; a few lines that revert cleanly. Trivial changes take the fast path: a one-line ticket, the existing tests, one screenshot if something visible changed, and the typed confirm. No measure, no plan, no mutation round. The fast path skips the plan, not the founder's say on wording: user-facing words still need the founder's yes. If in doubt, it is not trivial. *(Without a defined fast path, agents either grind a typo through every gate or quietly skip gates on real changes. Both are worse than a clear line.)*
 - The plan states: what was found (numbers with the query behind them, code with file:line), what will change, what will prove it worked, what a customer will see, and the open decisions with one recommendation each.
 - The orchestrator rules on engineering choices. Product and placement questions (where a feature lives, what the user sees, how a flow works) go to the founder with a recommendation, and nothing builds on them until the founder answers.
 - Investigate the root cause first, then fix. A founder's question or complaint is answered first; it is not an order to change anything.
@@ -72,7 +72,9 @@ Stages: steps 1, 4, 7, 8 and 9 from day one. Steps 2, 3, 5 and 6, and the two sc
 - **Tier by the tree, not the ticket.** What decides the checks is everything on the tree being released. *(A "small" release once carried fourteen merges.)*
 - **Customers will see.** Before the confirm, a plain list of every customer-visible change in the window, or "nothing visible".
 - **Typed confirm.** Nothing goes to production, visible or not, without the founder typing the release line. Auto-release is off.
-- **Enforce it in settings, not only in prose.** A rule in CLAUDE.md is a request the model can drift from. Put every deploy, migration and production command (deploy script, platform deploy, migration runner, ssh to servers, pushes to the release branch) under `ask` in `.claude/settings.json`, so Claude Code stops for the founder before running them, and put `.env` reads and force pushes under `deny`. Release work never runs in a mode that skips permission prompts.
+- **Enforce it with access, not prose.** A rule in CLAUDE.md is a request the model can drift from, so the confirm must not depend on the model behaving.
+  - *The lock:* agents never hold production credentials. Production keys, deploy tokens and server access live with the founder and in CI only. Production deploys run through CI with a manual approval (a GitHub Environment with the founder as required reviewer, or a manually triggered job only the founder can run). The approval is the typed confirm.
+  - *The backup:* `.claude/settings.json` puts deploy, migration and production commands under `ask` and force pushes under `deny`. Permission rules match how a command starts, so `git push origin HEAD:main` or a reworded deploy can slip past, and a `Read` rule on `.env` does not stop `cat .env`. Treat it as a speed bump that catches honest mistakes. Release work never runs in a mode that skips permission prompts.
 - **Rollback first.** Before release, take the code and database rollback and verify it by content, not by size.
 - **Read the premise** from the server right before releasing: live commit, build id, migration tip.
 - **Migrations** run in an explicit step before restart, with the tip printed before and after. Never edit a migration after it has run anywhere. No migration goes out with nobody awake to watch it.
@@ -98,7 +100,7 @@ These came from a B2B SaaS. The principles are general; the examples in brackets
 - Unknown is never a no. A gate fires only on positive evidence. *(A filter that failed closed on missing data quietly threw away good records for four days.)*
 - Your system's failures alert you, not your users. Users hear only when they must do something.
 - Never ask a user for permission to do what they signed up and pay for.
-- Automations that change or delete what a user created have an age floor, process oldest first, and never run on a brand-new account. *(A cleanup job deleted a new user's own records within hours of sign-up.)*
+- Automations that change or delete what a user created have an age floor, process oldest first, and never run on a brand-new account. *(A cleanup job with no age gate deleted a new customer's own hand-made records within five hours of them connecting an account.)*
 - Anything done in bulk has caps per run and per day. *(One bulk action triggered 146 expensive jobs in a single run with no brake.)*
 - User-facing copy is short: one or two lines. No internal words in the UI.
 
