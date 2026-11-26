@@ -34,7 +34,7 @@ Give it to your Claude, say what you're building, and it will:
 | Stage | When | You get |
 |---|---|---|
 | 1. Solo loop | Before launch | Plan before build, one click-through, a typed yes before production, a rollback, agents without production keys |
-| 2. Live product | Real users or money | CI on the exact commit, release windows, deploys only through your approval, blind QA, screens checked with heavy and empty data |
+| 2. Live product | Real users or money | CI on the exact commit, release windows, deploys only when you trigger them, blind QA, screens checked with heavy and empty data |
 | 3. Parallel lanes | More work than one agent can carry | An orchestrator plus named agents in their own worktrees, handovers, overnight work ([how to run lanes](references/lanes.md)) |
 
 ## Install
@@ -57,8 +57,9 @@ For browser checks you'll want Playwright (`npm i -D playwright && npx playwrigh
 
 - `SKILL.md`: the interview, the stages, the change loop, the fast path, the hard rules.
 - `references/doctrine.md`: the full rules, including how checking works when agents write the code.
+- `references/release-lock.md`: how to make sure only you can ship, on any GitHub plan.
 - `references/lanes.md`: how to open and run parallel agent lanes in Claude Code.
-- `templates/`: project rules, CI deploy with manual approval (`deploy-workflow.yml`), permission backup (`settings.json`), ticket, plan, release checklist, "Customers will see", QA journeys, handover, lane brief, traps.
+- `templates/`: project rules, founder-triggered deploy with a green-CI check (`deploy-workflow.yml`), permission backup (`settings.json`), ticket, plan, release checklist, "Customers will see", QA journeys, handover, lane brief, traps.
 
 ## What it won't do
 
