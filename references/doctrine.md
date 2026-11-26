@@ -24,6 +24,7 @@ Lanes never talk to each other. They coordinate through the ticket and the orche
 ## 3. Plan, then GO
 
 - Anything non-trivial runs in two phases. Phase 1: the lane measures, read-only, and posts a plan. Phase 2: build, only after GO.
+- **Trivial means all of these:** copy, styling, docs or a config value; no logic; no data, migrations, money, auth, permissions or anything that sends to users; a few lines that revert cleanly. Trivial changes take the fast path: a one-line ticket, the existing tests, one screenshot if something visible changed, and the typed confirm. No measure, no plan, no mutation round. The fast path skips the plan, not the founder's say on wording: user-facing words still need the founder's yes. If in doubt, it is not trivial. *(Without a defined fast path, agents either grind a typo through every gate or quietly skip gates on real changes. Both are worse than a clear line.)*
 - The plan states: what was found (numbers with the query behind them, code with file:line), what will change, what will prove it worked, what a customer will see, and the open decisions with one recommendation each.
 - The orchestrator rules on engineering choices. Product and placement questions (where a feature lives, what the user sees, how a flow works) go to the founder with a recommendation, and nothing builds on them until the founder answers.
 - Investigate the root cause first, then fix. A founder's question or complaint is answered first; it is not an order to change anything.
@@ -32,6 +33,9 @@ Lanes never talk to each other. They coordinate through the ticket and the orche
 - When the founder says a change is wrong for the product, it comes out of the release that day. Engineering arguments wait.
 
 ## 4. Lanes and isolation (stage 3)
+
+How to set lanes up in Claude Code, step by step: `references/lanes.md`.
+
 
 - One git worktree per lane. Lanes never touch the main folder that releases run from. *(Two lanes in one folder invalidated a full test run.)*
 - Each lane gets its own throwaway database when it needs one. The shared template is never touched.
@@ -52,7 +56,10 @@ Agents write code fast. The slow part is checking it. This is the system.
 5. **Real-data shapes.** Every screen is checked with a heavy seed (long names, many rows, many items) and an empty seed (a brand-new account). Tidy demo data hides most layout bugs.
 6. **Blind QA** (stage 2+). After CI is green and before release, a fresh agent with no code, no tickets and no context gets only: the test copy URL, a login, a persona ("new user, never seen this product") and plain journey goals. It runs the journeys in a real browser at both widths. A blocker (a journey that can't be completed, or something on production missing on the test copy) holds the release if this release caused it. Confusing or polish findings become tickets. *(A page that passed every test was rejected by the founder in seconds; the people who built it knew how it was supposed to work.)*
 7. **Founder review** of anything visual, on the test copy, before production. Mockups start from a screenshot of today's real screen, shown before and after side by side.
-8. **When the test copy cannot exercise a step,** name the substitute proof in the same sentence. Never skip silently.
+8. **When the test copy cannot exercise a step,** or there is no test copy yet, name the substitute proof in the same sentence: release behind a flag or to the founder's own account, verify there, then turn it on for everyone. Never skip silently.
+9. **Browser tooling.** Click-throughs and blind QA need a headless browser: Playwright (`npm i -D playwright && npx playwright install chromium`) or a browser MCP server. Set it up in the first week. Until it exists, the founder clicks through from a numbered list of what to open and what to see.
+
+Stages: steps 1, 4, 7, 8 and 9 from day one. Steps 2, 3, 5 and 6, and the two screen widths, from stage 2 (real users).
 
 ## 6. Test copy (staging)
 
@@ -68,6 +75,9 @@ Agents write code fast. The slow part is checking it. This is the system.
 - **Tier by the tree, not the ticket.** What decides the checks is everything on the tree being released. *(A "small" release once carried fourteen merges.)*
 - **Customers will see.** Before the confirm, a plain list of every customer-visible change in the window, or "nothing visible".
 - **Typed confirm.** Nothing goes to production, visible or not, without the founder typing the release line. Auto-release is off.
+- **Enforce it with access, not prose.** A rule in CLAUDE.md is a request the model can drift from, so the confirm must not depend on the model behaving.
+  - *The lock:* agents never hold production credentials. Production keys, deploy tokens and server access live with the founder and in CI only. Production deploys run through CI with a manual approval (a GitHub Environment with the founder as required reviewer, or a manually triggered job only the founder can run). The approval is the typed confirm.
+  - *The backup:* `.claude/settings.json` puts deploy, migration and production commands under `ask` and force pushes under `deny`. Permission rules match how a command starts, so `git push origin HEAD:main` or a reworded deploy can slip past, and a `Read` rule on `.env` does not stop `cat .env`. Treat it as a speed bump that catches honest mistakes. Release work never runs in a mode that skips permission prompts.
 - **Rollback first.** Before release, take the code and database rollback and verify it by content, not by size.
 - **Read the premise** from the server right before releasing: live commit, build id, migration tip.
 - **Migrations** run in an explicit step before restart, with the tip printed before and after. Never edit a migration after it has run anywhere. No migration goes out with nobody awake to watch it.
@@ -86,14 +96,16 @@ Agents write code fast. The slow part is checking it. This is the system.
 
 ## 9. Product rules code must obey
 
-- The product is for everyone. No single customer's setup, including the founder's own, is a universal truth. Customer-specific values live only in per-customer configuration.
+These came from a B2B SaaS. The principles are general; the examples in brackets show where each one bit. Keep the ones that fit your product.
+
+- The product is for everyone. No single user's setup, including the founder's own, is a universal truth. User-specific values live only in per-user or per-account configuration.
 - Every rule in a plan answers "which configuration field does this read from?" with file:line. "None, it's a constant" is a rejected plan.
 - Unknown is never a no. A gate fires only on positive evidence. *(A filter that failed closed on missing data quietly threw away good records for four days.)*
-- Our failures go to the admin, not to the customer's to-do list. Customers hear only when they must act.
-- Never ask a customer for consent to do what they signed up and pay for.
-- Anything that touches what a customer made by hand runs oldest first, with an age floor, and never before the product has done anything for them.
-- Bulk actions have caps per run and per day. *(A bulk approval once fired 146 AI drafts in one go with no brake.)*
-- Customer-facing copy is short: one or two lines. No internal words in the UI.
+- Your system's failures alert you, not your users. Users hear only when they must do something.
+- Never ask a user for permission to do what they signed up and pay for.
+- Automations that change or delete what a user created have an age floor, process oldest first, and never run on a brand-new account. *(A cleanup job with no age gate deleted a new customer's own hand-made records within five hours of them connecting an account.)*
+- Anything done in bulk has caps per run and per day. *(One bulk action triggered 146 expensive jobs in a single run with no brake.)*
+- User-facing copy is short: one or two lines. No internal words in the UI.
 
 ## 10. Shadow mode
 

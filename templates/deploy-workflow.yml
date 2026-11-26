@@ -1,0 +1,27 @@
+# Production deploy, gated by the founder's approval.
+# Setup: repo Settings > Environments > New environment "production",
+# tick "Required reviewers" and add the founder. Put production secrets
+# in that environment only, never in repo-wide secrets or on the agents' machine.
+name: Deploy to production
+
+on:
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "Commit to release (must have green CI)"
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production   # the run waits here until the founder approves
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.sha }}
+      - name: Deploy
+        run: ./deploy.sh   # replace with the real deploy command
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}   # replace with the real secret names
+      - name: Verify by outcome
+        run: ./verify.sh   # check the live version and one real example of the change
