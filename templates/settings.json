@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "ask": [
+      "Bash(./deploy.sh:*)",
+      "Bash(npm run deploy:*)",
+      "Bash(npm run migrate:*)",
+      "Bash(npx prisma migrate deploy:*)",
+      "Bash(vercel --prod:*)",
+      "Bash(fly deploy:*)",
+      "Bash(ssh:*)",
+      "Bash(scp:*)",
+      "Bash(git push origin main:*)",
+      "Bash(gh pr merge:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)"
+    ]
+  }
+}
